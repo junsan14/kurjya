@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Shippori+Mincho&family=Zen+Old+Mincho&display=swap');
+$border-radius: 32px;
+$border: 1px solid rgba(0, 0, 0, 0.5);
+$header_height:80px;
+$header_height_sp:60px;
+$sub-color:#505050;
+$breakpoint: (
+  sp: 'screen and (max-width: 767px)',
+  tab: 'screen and (max-width: 1025px)',
+  pc: 'screen and (min-width: 1025px)'
+);
+
+
+@mixin mq($bp) {
+  @media #{map-get($breakpoint, $bp)} {
+   @content;
+  }
+}
+
+
+
+@keyframes fadeInShowBlock {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: .5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+input:focus{ outline: none; }
+
+body{
+	font-size: 100%;
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+	color:black
+}
+ul{
+  padding: 0;
+  list-style: none;
+}
+
+img{
+	max-width: 100%;
+}
+
+.header{
+	width: 100%;
+	height: $header_height;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: sticky;
+	background: #fff;
+	top: 0;
+	@include mq(sp){
+		display: none;
+	}
+	&_logo-area{
+		width: 20%;
+		&_img{
+			width: 3.5rem;
+		}
+	}
+	&_ul-area{
+		display: flex;
+		justify-content: end;
+		align-items: center;
+
+		&_li{
+			position: relative;
+			&:nth-child(1){
+				margin-right: 20px;
+			}
+			&_user{
+				cursor: pointer;
+				svg{
+					font-size: 2rem;
+				}
+				&_items{
+					display: none;
+					padding: 20px;
+					box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+					position: absolute;
+					border-radius: 5px;
+					right: 0;
+					line-height: 30px;
+					width:200px;
+					background: white;
+					&.show{
+						display: block;
+					}
+					&_li{
+					
+
+					}
+				}
+			}
+		}		
+	}
+
+}
+
+.header-sp{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	position: sticky;
+	width: 100%;
+	bottom: 0;
+	background: white;
+	height: $header_height_sp;
+	border-top:$border;
+	&_icon-area{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		&_link{
+			width: 100%;
+			text-align: center;
+			svg{
+				font-size: 1.5rem;
+			}
+		}
+		
+		&_title{
+			text-align: center;
+			margin-top: 5px;
+			font-size: .9rem;
+			width: 100%;
+		}
+	}
+}
+.wrap{
+		width: 100%;
+		padding: 0 2%;
+		@include mq(sp){
+			padding: 0 5%;
+		}
+	}
+
+.main{
+	&_title{
+		text-align: center;
+		font-size: 2rem;
+		border-bottom: $border;
+		padding-bottom: 5px;
+	}
+	.section{
+		margin-top: 60px;
+		&_title{
+			text-align: center;
+			font-size: 1.5rem;
+			margin-bottom: 60px;
+		}
+	}
+}
+
+.search-form{
+		width: 80%;
+		margin: 0 auto;
+		border: $border;
+		border-radius: $border-radius;
+		font-size: 1rem;
+		display: flex;
+		flex-wrap: no-wrap;
+		transition: ease .5s;
+		background: white;
+		@include mq(sp){
+			width: 90%;
+			margin: 5%;
+		}
+		&.scroll-fix{
+				position: sticky;
+				top: 10px;
+				width: 40%;
+				transition: ease .5s;
+				margin-top: 20px;
+				@include mq(sp){
+					width: 90%;
+				}
+
+			}
+		&_input-area{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			border-radius: $border-radius;
+			padding: 14px 32px;
+			transition: ease .3s;
+			box-sizing:border-box;
+			cursor: pointer;
+			width: 30%;
+			@include mq(sp){
+				display: none;
+
+			}
+			&:hover, &:focus{
+				
+				background: #eee;
+				transition: ease .3s;
+				cursor: pointer;
+				box-sizing:border-box;
+			}
+			&_label{
+				width: 100%;
+				font-size: .8rem;
+			}
+			&_box{
+				&.hide{
+					display: none;
+				}
+				
+			}
+		}
+		&_btn-area{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+			width: 10%;
+			svg{
+				font-size: 3rem;
+			}
+			@include mq(sp){
+				width: 20%;
+			}
+		}
+		&_text-area{
+			display: none;
+			@include mq(sp){
+				width: 80%;
+				display: flex;
+				align-items: center;
+				font-size: .8rem;
+			}
+		}
+		
+	}
+
+
+.modal{
+	width: 100%;
+	height: 100vh;
+	background: rgba(0,0,0,0.5);
+	position: absolute;
+	top: 0;
+	display: none;
+	opacity: 0;
+
+	&.show{
+		display: block;
+		opacity: 1;
+		animation: fadeInShowBlock .8s linear 0s;
+		z-index: 1;
+		cursor: pointer;
+	}
+}
+	.login{
+		position: absolute;
+		display: none;
+		opacity: 0;
+		background: white;
+		top:5vh;
+		width: 50%;
+		left: 25%;
+		height: 90vh;
+		border-radius: 20px;
+		overflow-y:scroll ;
+		padding: 40px;
+	&.show{
+		display: block;
+		opacity: 1;
+		animation: fadeInShowBlock .1s linear 0s;
+		z-index: 10;
+	}
+	.login-form{
+	margin: 0 auto;
+	width: 100%;
+	.input-area{
+		margin-top: 20px;
+		
+		&_box{
+			width: 100%;
+			border: $border;
+			border-radius: 5px;
+			height: 40px;
+			padding-left: 5px;
+			margin-top: 10px;
+		}
+
+	}
+	.btn-area{
+		display: flex;
+		justify-content: end;
+		margin-top: 20px;
+		&_btn{
+			padding: 10px 20px;
+			border-radius: 5px;
+			border: $border;
+		}
+	}
+}
+}
+
+
+
+
+.home{
+	
+	.pickup{
+		&_items{
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			&_list{	
+					width: 23%;
+					margin-top: 5%;
+					@include mq(tab){
+						width: 30%;
+					}
+					@include mq(sp){
+						width: 100%;
+					}
+					&_img{
+						border-radius: 10px;
+						width: 100%;
+					}
+					&_title-area{
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						margin-top: 10px;
+					}
+					&_area{
+						color: $sub-color;
+						margin-top: 5px;
+					}
+					&_price{
+						
+						margin-top:5px;
+					}
+				
+			}
+		}
+	}
+}
+
+
+.footer{
+	height: $header_height;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
