@@ -21,24 +21,15 @@ class AuthenticatedSessionController extends Controller
      public function check(Request $request)
     {
         $user = User::where(['country_code'=> $request->country_code,'mobile'=> $request->mobile])->first();
-        //dd($user);
+        //dd($request);
         if($user){
-            return Inertia::render('Auth/Login', [
-                'mobile' => $request->mobile,
-                'country_code' => $request->country_code,
-            ]);
+            Auth::login($user);
+            return Inertia::render('Home');
         }else{
-           // return redirect()->back()->with("a","a");
-       return Redirect::back()->with("a","a");;
-
-            //return redirect();
-            //return Redirect::to('/blog/admin');
-            /*
-            return Inertia::render('Auth/Register', [
-                'mobile' => $request->mobile,
-                'country_code' => $request->country_code,
+            return Inertia::render('Home', [
+                'isSignUp' => true
             ]);
-            */
+            
         }
     }
 
@@ -47,7 +38,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/LoginOrSignup', [
+        return Inertia::render('Auth/AccountCheck', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
         ]);

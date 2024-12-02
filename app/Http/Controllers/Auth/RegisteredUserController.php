@@ -13,8 +13,12 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Route;
+use Carbon\Carbon;
 
 use Illuminate\Support\Str;
+use App\Notifications\SendSms;
+use App\Notifications\SuccessfulRegistration;
+
 
 
 class RegisteredUserController extends Controller
@@ -52,8 +56,10 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 */
+        //dd($request);
+        /*
         $user = User::create([
-            'username' => $request->username,
+            'username' => Str::uuid(),
             'country_code' => $request->country_code,
             'mobile' => $request->mobile,
             'password' => Hash::make($request->password),
@@ -63,7 +69,26 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+        */
+            //$tel = preg_replace('/^0/',"a", $request->tel);
+        $AuthCode = random_int(100000, 999999);
+        
+        $user = User::create([
+            'username' => Str::uuid(),
+            'country_code' => $request->country_code,
+            'mobile' => $request->mobile,
+            'password' => Hash::make($request->password),
+            'mobile_verification_tokens'=>$AuthCode,
+            'mobile_verification_code'=>random_int(100000, 999999),
+            'mobile_verification_code_expires_at'=>Carbon::now()->addMinutes(10),
+            'is_verified'=>false
+        ]);
+        event(new Registered($user));
+        
 
-        return redirect(route('/dashboard', absolute: false));
+        //$user->notify(new SuccessfulRegistration($user->name));
+        //return 'Send SMS via Vonage success!';
+        $user->notify(new SendSms($AuthCode));
+        return redirect(route('home', absolute: false));
     }
 }

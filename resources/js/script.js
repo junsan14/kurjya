@@ -68,12 +68,12 @@ function showLoginOrSignup(){
 		})
 		$modal.not($ele).on("click", function(){
 		if(isShow ){
-			console.log($(this))
+			//console.log($(this))
 			
 			$ele.removeClass("show");
 			$modal.removeClass("show")
 			setIsShow(false);
-			console.log(isShow)
+			//console.log(isShow)
 			
 		}
 			
