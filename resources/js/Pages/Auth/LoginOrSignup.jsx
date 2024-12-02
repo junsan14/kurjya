@@ -8,15 +8,15 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { CountryCodeList } from '@/Components/countryCodeList';
 import { useEffect } from 'react';
 
-export default function LoginOrSignup({ status, canResetPassword, auth }) {
-    const isSignUp = usePage().props.isSignUp;
+export default function LoginOrSignup({ status, canResetPassword, auth,isSignup}) {
+    isSignup = usePage().props.isSignup?usePage().props.isSignup:isSignup;
+    console.log(isSignup)
     const { data, setData, post, processing, errors, reset } = useForm({
-        country_code: '+250',
-        mobile: '',
+        username: '',
         remember: false,
         password:"",
+        email:"",
         resetPassword:"",
-        url:"",
     });
     
     const handleChangeData = (e)=>{
@@ -43,52 +43,32 @@ export default function LoginOrSignup({ status, canResetPassword, auth }) {
             <div className='modal js-modal'></div>
                 <div className='login wrap js-loginOrsignup'>
                     <h1 className='main_title'> 
-                        {isSignUp?<>Sign up</>:<>Log in or sign up</>}
+                        {isSignup?<>Sign up</>:<>Log in or sign up</>}
                     </h1>
                     <section className='section'>
                         <h2 className='section_title'>Welcome to Kurjya</h2>
-                        <h2 className='section_title'>{isSignUp?<>We cannot find your account</>:<></>}</h2>
+                        <h2 className='section_title'>{isSignup?<>Let's create your account</>:<></>}</h2>
                     </section>
                     <form onSubmit={submit} className='login-form'>
                         <div className='input-area'>
-                            <label htmlFor="tel" value="tel" className='input-area_label' >
-                            Country Code
+                            <label htmlFor="username" value="username" className='input-area_label' >
+                            Username
                             </label>
-                            <select 
-                                className='input-area_select'
-                                onChange={handleChangeData}
-                                id="country_code"
-                            >
-                                {CountryCodeList.map((ele,i)=>{
-                                    if(ele.name === "Rwanda"){
-                                        return(<option selected key={i} value={ele.dial_code}>{ele.name}({ele.dial_code})</option>)
-                                    }else{
-                                        return(<option key={i} value={ele.dial_code}>{ele.name}({ele.dial_code})</option>)
-
-                                    }
-                                })}
-                            </select>
-                        </div>
-                        <div className='input-area'>
-                            <label htmlFor="tel" value="tel" className='input-area_label' >
-                            Phone Number
-                            </label>
-
                             <input
-                                id="mobile"
-                                type="tel"
-                                name="mobile"
-                                value={data.mobile}
+                                id="username"
+                                type="text"
+                                name="username"
+                                value={data.username}
                                 className='input-area_box'
-                                autoComplete="tel"
                                 onChange={handleChangeData}
                                 placeholder=''
+                                required
                             />
                         </div>
-                        <Register isSignUp={isSignUp} data={data} onChange={handleChangeData}/>
+                        <Register isSignup={isSignup} data={data} onChange={handleChangeData}/>
                         <div className='btn-area'>
-                            <button className="btn-area_btn" id="status" disabled={processing} value={isSignUp?"signup":"login"}>
-                                {isSignUp?<>Register</>:<>Continue</>}
+                            <button className="btn-area_btn" id="status" disabled={processing} value={isSignup?"signup":"login"}>
+                                {isSignup?<>Register</>:<>Continue</>}
                             </button>
                         </div>
                     </form>
@@ -99,10 +79,25 @@ export default function LoginOrSignup({ status, canResetPassword, auth }) {
     );
 }
 
-const Register= ({isSignUp,data, onChange}) => {
-        if(isSignUp){
+const Register= ({isSignup,data, onChange}) => {
+        if(isSignup){
             return(
                 <>
+                    <div className='input-area'>
+                        <label htmlFor="email" value="email" className='input-area_label' >
+                        Email
+                        </label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            value={data.email}
+                            className='input-area_box'
+                            onChange={onChange}
+                            placeholder=''
+                            required
+                        />
+                    </div>
                     <div className='input-area'>
                         <label htmlFor="password" value="password" className='input-area_label' >
                         Password

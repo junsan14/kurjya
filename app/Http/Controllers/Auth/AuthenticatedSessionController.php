@@ -20,13 +20,13 @@ class AuthenticatedSessionController extends Controller
 
      public function check(Request $request)
     {
-        $user = User::where(['country_code'=> $request->country_code,'mobile'=> $request->mobile])->first();
+        $user = User::where(['username'=> $request->username])->first();
         //dd($request);
         if($user){
-            Auth::login($user);
-            return Inertia::render('Home');
+            $auth = Auth::login($user);
+            return Inertia::render('home',['auth'=>$auth]);
         }else{
-            return Inertia::render('Home', [
+            return Inertia::render('home', [
                 'isSignUp' => true
             ]);
             

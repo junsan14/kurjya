@@ -3,34 +3,34 @@ import $ from 'jquery';
 import { useState } from 'react';
 function menuShow(){
 
-const [isShow, setIsShow] = useState(false);
-$(function(){
-	$('.js-show-items').on("click", function(){
-		if(isShow){
-			$('.js-items').removeClass('show');
-			setIsShow(false);
-		}else{
-			$('.js-items').addClass('show');
-			setIsShow(true);
-		}
-			
+	const [isShow, setIsShow] = useState(false);
+	$(function(){
+		$('.js-show-items').on("click", function(){
+			if(isShow){
+				$('.js-items').removeClass('show');
+				setIsShow(false);
+			}else{
+				$('.js-items').addClass('show');
+				setIsShow(true);
+			}
+				
+		})
+		$('.main').on("click", function(){
+			if(isShow){
+				$('.js-items').removeClass('show');
+				setIsShow(false);
+				//console.log(isShow)
+			}		
+		})
+		$('.js-items').on("click", function(){
+			if(isShow){
+				$('.js-items').removeClass('show');
+				setIsShow(false);
+				//console.log(isShow)
+			}		
+		})
+		
 	})
-	$('.main').on("click", function(){
-		if(isShow){
-			$('.js-items').removeClass('show');
-			setIsShow(false);
-			//console.log(isShow)
-		}		
-	})
-	$('.js-items').on("click", function(){
-		if(isShow){
-			$('.js-items').removeClass('show');
-			setIsShow(false);
-			//console.log(isShow)
-		}		
-	})
-	
-})
 	
 }
 
@@ -64,12 +64,13 @@ function showLoginOrSignup(){
 				$ele.addClass("show");
 				$modal.addClass("show")
 				setIsShow(true);
+				$("body").addClass("no-scroll");
 			}
 		})
 		$modal.not($ele).on("click", function(){
 		if(isShow ){
 			//console.log($(this))
-			
+			$("body").removeClass("no-scroll");
 			$ele.removeClass("show");
 			$modal.removeClass("show")
 			setIsShow(false);

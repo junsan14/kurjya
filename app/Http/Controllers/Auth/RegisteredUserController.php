@@ -72,23 +72,18 @@ class RegisteredUserController extends Controller
         */
             //$tel = preg_replace('/^0/',"a", $request->tel);
         $AuthCode = random_int(100000, 999999);
-        
+        dd($request->email);
         $user = User::create([
-            'username' => Str::uuid(),
-            'country_code' => $request->country_code,
-            'mobile' => $request->mobile,
+            'username' => $request->username,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
-            'mobile_verification_tokens'=>$AuthCode,
-            'mobile_verification_code'=>random_int(100000, 999999),
-            'mobile_verification_code_expires_at'=>Carbon::now()->addMinutes(10),
-            'is_verified'=>false
         ]);
         event(new Registered($user));
         
 
         //$user->notify(new SuccessfulRegistration($user->name));
         //return 'Send SMS via Vonage success!';
-        $user->notify(new SendSms($AuthCode));
+        //$user->notify(new SendSms($AuthCode));
         return redirect(route('home', absolute: false));
     }
 }

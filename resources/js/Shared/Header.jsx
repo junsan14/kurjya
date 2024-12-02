@@ -8,12 +8,12 @@ import { IoSearchCircle,IoSearch } from "react-icons/io5";
 import { FcLike } from "react-icons/fc";
 import { router } from '@inertiajs/react'
 import LoginOrSignup from "@/Pages/Auth/LoginOrSignup";
-
+import { useState } from "react";
 
 export default function Header({auth}){
     menuShow();
     showLoginOrSignup();
-    //console.log(auth)
+   const [isSignup, setIsSignup] = useState(false);
     const hanldeClickLogout = ()=>{
             router.post('/logout')
     }
@@ -39,7 +39,7 @@ export default function Header({auth}){
                             {auth.user ? (
                             <>
                                 <li className="header_ul-area_li_user_items_li">
-                                   <Link href={route('dashboard')}> Profile </Link> 
+                                   <Link href={route('mypage')}> Profile </Link> 
                                 </li>
                                 <li className="header_ul-area_li_user_items_li">
                                    <button onClick={hanldeClickLogout}> Logout </button> 
@@ -47,10 +47,14 @@ export default function Header({auth}){
                             </>
                             ) : (
                             <>
-                                <li className="header_ul-area_li_user_items_li js-show-loginOrsignup">
+                                <li className="header_ul-area_li_user_items_li js-show-loginOrsignup"
+                                    onClick={()=>setIsSignup(true)}
+                                >
                                     Sign Up 
                                 </li>
-                                <li className="header_ul-area_li_user_items_li js-show-loginOrsignup">
+                                <li className="header_ul-area_li_user_items_li js-show-loginOrsignup"
+                                    onClick={()=>setIsSignup(false)}
+                                >
                                    Log in
                                 </li>
                             </>
@@ -59,7 +63,7 @@ export default function Header({auth}){
                     </div>
         		</div>  
             </header>
-            <LoginOrSignup auth={auth}/ >
+            <LoginOrSignup auth={auth} isSignup={isSignup}/ >
         </>
 		)
 }

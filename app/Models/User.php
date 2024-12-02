@@ -25,13 +25,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username',
-        'country_code',
-        'mobile',
-        'password',
-        'mobile_verification_code_expires_at',
-        'is_verified',
-        'mobile_verification_code',
-
+        'email',
+        'password'
         
     ];
 
@@ -59,10 +54,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function routeNotificationForVonage(): string
-    {
-        return $this->mobile;  // SMS送信先の電話番号
-    }
+
     
 
 }
